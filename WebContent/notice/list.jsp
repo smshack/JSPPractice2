@@ -1,20 +1,9 @@
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.Connection"%>
+
+<%@page import="com.newlecture.web.controller.entity.Notice"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="UTF-8"%>
-<%
-	String url ="jdbc:oracle:thin:@localhost:1521/orcl";
-	String sql = "select * from notice";
-	
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	Connection con =DriverManager.getConnection(url,"practice","1111");
-	Statement st =con.createStatement();
-	ResultSet rs =st.executeQuery(sql);
-			
-%>    
-    
+
     
 <!DOCTYPE html>
 <html>
@@ -188,15 +177,20 @@
 						</tr>
 					</thead>
 					<tbody>
-							<%while(rs.next()){ %>
+							<% 
+							List<Notice> list = (List<Notice>)request.getAttribute("list");
+							for(Notice n : list){ 
+							
+							pageContext.setAttribute("n",n);
+							%>
 					<tr>
-						<td><%=rs.getInt("ID") %></td>
-						<td class="title indent text-align-left"><a href="detail?id=<%= rs.getInt("ID") %>"><%=rs.getString("title") %></a></td>
-						<td><%=rs.getString("writer_id") %></td>
+						<td>${n.id} </td>
+						<td class="title indent text-align-left"><a href="detail?id=${n.id }">${n.title }</a></td>
+						<td>${n.writerid }</td>
 						<td>
-							<%=rs.getDate("regdate") %>		
+							${n.regdate }
 						</td>
-						<td><%=rs.getInt("hit") %>></td>
+						<td>${n.hit }</td>
 					</tr>
 							<%} %>
 					
@@ -274,9 +268,3 @@
     </html>
     
     
-   <% 
-   rs.close();
-   st.close();
-   con.close();                     		
-                  
-   %>
