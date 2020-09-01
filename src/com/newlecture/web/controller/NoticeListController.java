@@ -68,7 +68,7 @@ public class NoticeListController extends HttpServlet{
 		}
 		
 		
-		request.getRequestDispatcher("/notice/list.jsp")	//지정한 페이지를 요청하면서 request, response 객체를 공유
+		request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp")	//지정한 페이지를 요청하면서 request, response 객체를 공유
 		 .forward(request, response); 		
 		                  
 		 

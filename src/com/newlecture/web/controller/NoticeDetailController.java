@@ -97,7 +97,7 @@ public class NoticeDetailController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		 request.getRequestDispatcher("/notice/detail.jsp")	//지정한 페이지를 요청하면서 request, response 객체를 공유
+		 request.getRequestDispatcher("/WEB-INF/view/notice/detail.jsp")	//지정한 페이지를 요청하면서 request, response 객체를 공유
 		 .forward(request, response);
 		
 		
@@ -115,13 +115,6 @@ public class NoticeDetailController extends HttpServlet {
 		//forward
 		/* 
 		 * 작업한 내용을 이어서 내용을 그 서블릿으로 넘겨주는 것
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
 		 * */
 		                  
 	}
