@@ -2,17 +2,19 @@ package com.newlecture.web.controller;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.newlecture.web.controller.entity.Notice;
 
 /**
  * Servlet implementation class NoticeDetailController
@@ -48,21 +50,42 @@ public class NoticeDetailController extends HttpServlet {
 			ResultSet rs =st.executeQuery();
 			
 			rs.next();
-
+			System.out.println("2-----------");
 			String title = rs.getString("title");
 			Date regdate =rs.getDate("regdate");
 			String writerid =rs.getString("writer_id");
 			int hit =rs.getInt("hit");
 			String files =rs.getString("files");
 			String content =rs.getString("content");
+			System.out.println(id);
+			System.out.println(title);
+			System.out.println(writerid);
+			System.out.println(regdate);
+			System.out.println(hit);
+			System.out.println(files);
+			System.out.println(content);
+			System.out.println("2-----------");
+			Notice notice = new Notice(id,
+									title,
+									writerid,
+									regdate,
+									hit,
+									files,
+									content);
 			
+			System.out.println(notice.toString());
+			
+			request.setAttribute("notice", notice);
+			
+			//이부분을 객체화 한다
+			/*
 			request.setAttribute("title", title);
 			request.setAttribute("writerid", writerid);
 			request.setAttribute("regdate",regdate );
 			request.setAttribute("hit", hit);
 			request.setAttribute("files", files);
 			request.setAttribute("content", content);
-			
+			*/
 			rs.close();
 			st.close();
 			con.close();   
