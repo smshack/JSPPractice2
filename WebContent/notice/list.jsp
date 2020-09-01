@@ -1,5 +1,21 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="UTF-8"%>
+<%
+	String url ="jdbc:oracle:thin:@localhost:1521/orcl";
+	String sql = "select * from notice";
+	
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	Connection con =DriverManager.getConnection(url,"practice","1111");
+	Statement st =con.createStatement();
+	ResultSet rs =st.executeQuery(sql);
+			
+%>    
+    
+    
 <!DOCTYPE html>
 <html>
 
@@ -172,15 +188,15 @@
 						</tr>
 					</thead>
 					<tbody>
-							<%for(int i=0;i<10;i++){ %>
+							<%while(rs.next()){ %>
 					<tr>
-						<td><%=(i+1) %>and<%out.print(i); %></td>
-						<td class="title indent text-align-left"><a href="detail.html">스프링 8강까지의 예제 코드</a></td>
-						<td>newlec</td>
+						<td><%=rs.getInt("ID") %></td>
+						<td class="title indent text-align-left"><a href="detail.html"><%=rs.getString("title") %>></a></td>
+						<td><%=rs.getString("writer_id") %></td>
 						<td>
-							2019-08-18		
+							<%=rs.getDate("regdate") %>		
 						</td>
-						<td>146</td>
+						<td><%=rs.getInt("hit") %>></td>
 					</tr>
 							<%} %>
 					
@@ -256,3 +272,11 @@
     </body>
     
     </html>
+    
+    
+   <% 
+   rs.close();
+   st.close();
+   con.close();                     		
+                  
+   %>
