@@ -188,24 +188,24 @@
 							<!-- 수정하고 있는 부분입니다  -->
 								<tr>
 									<th>제목</th>
-									<td class="text-align-left text-indent text-strong text-orange" colspan="3"><%=title %></td>
+									<td class="text-align-left text-indent text-strong text-orange" colspan="3"><%=request.getAttribute("title") %></td>
 								</tr>
 								<tr>
 									<th>작성일</th>
-									<td class="text-align-left text-indent" colspan="3"><%=regdate %>	</td>
+									<td class="text-align-left text-indent" colspan="3"><%=request.getAttribute("regdate") %>	</td>
 								</tr>
 								<tr>
 									<th>작성자</th>
-									<td><%=writerid %></td>
+									<td><%=request.getAttribute("writerid") %></td>
 									<th>조회수</th>
-									<td><%=hit %></td>
+									<td><%=request.getAttribute("hit") %></td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
-									<td colspan="3"><%=files %></td>
+									<td colspan="3"><%=request.getAttribute("files") %></td>
 								</tr>
 								<tr class="content">
-									<td colspan="4"><%=content %></td>
+									<td colspan="4"><%=request.getAttribute("content") %></td>
 								</tr>
 								<!-- 수정하고 있는 부분입니다  -->
 							</tbody>
