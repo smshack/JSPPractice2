@@ -5,6 +5,8 @@
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="UTF-8"%>
 <%
@@ -193,20 +195,31 @@
 								</tr>
 								<tr>
 									<th>작성일</th>
-									<td class="text-align-left text-indent" colspan="3">${notice.regdate} </td>
+									<td class="text-align-left text-indent" colspan="3">
+									<fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd hh:mm:ss"/>	
+									</td>
 								</tr>
 								<tr>
 									<th>작성자</th>
 									<td>${notice.writerid}</td>
 									<th>조회수</th>
-									<td>${notice.hit}</td>
+									<td>
+									<!-- 출력 형식을 직접 지정해 줄수 있음 -->
+										<fmt:formatNumber type="number" pattern="###,####원" value="${notice.hit}"></fmt:formatNumber>
+									</td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
 									<td colspan="3" style="text-align:left; text-indent:1vh">
 									<!-- forTokens 로 첨부 파일 목록 출력하기 -->
 									<c:forTokens var="fileName" items="${notice.files}" delims="," varStatus="st">
-										<a href="${fileName}">${fileName}</a> 
+										<!-- 특정한 요건에 원하는 스타일을 적용하고 싶을 경우 -->
+										<c:set var="style" value="" />
+										<c:if test="${fn:endsWith(fileName,'.zip') }">
+											<c:set var="style" value="font-weight:bold; color:red;"/>
+										</c:if>
+										
+										<a href="${fileName}" style="${style}">${fn:toUpperCase(fileName)}</a> 
 										<!-- 마지막 인자값에는 구분자를 넣지 않는다 -->
 										<c:if test="${! st.last }">
 											/

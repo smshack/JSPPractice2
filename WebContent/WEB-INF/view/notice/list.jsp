@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
 <!DOCTYPE html>
 <html>
 
@@ -184,13 +184,15 @@
 							
 							pageContext.setAttribute("n",n);
 							%> --%>
-					<c:forEach var="n" items="${list}" begin="0" end="2" >
+					<c:forEach var="n" items="${list}" begin="0" end="5" >
 							<tr>
 						<td>${n.id} </td>
 						<td class="title indent text-align-left"><a href="detail?id=${n.id }">${n.title }</a></td>
 						<td>${n.writerid }</td>
 						<td>
-							${n.regdate }
+						<!-- format태그를 이용한 날짜 형식 변경 -->
+							<fmt:formatDate value="${n.regdate }" pattern="yyyy년  MM월 dd일"/>		
+							<%-- <fmt:formatDate value="${n.regdate }" pattern="yyyy-MM-dd hh:mm:ss"/>		 --%>
 						</td>
 						<td>${n.hit }</td>
 					</tr>
