@@ -184,7 +184,7 @@
 							
 							pageContext.setAttribute("n",n);
 							%> --%>
-					<c:forEach var="n" items="${list}">
+					<c:forEach var="n" items="${list}" begin="0" end="2" >
 							<tr>
 						<td>${n.id} </td>
 						<td class="title indent text-align-left"><a href="detail?id=${n.id }">${n.title }</a></td>
@@ -210,20 +210,34 @@
 			<div class="margin-top align-center pager">	
 		
 	<div>
-		
-		
+	<c:set var ="page" value="${(param.p ==null) ?1:param.p }"  />
+	<c:set var="startNum" value="${page-(page-1)%5 }" />
+	<c:set var="lastNum" value="23" />
+<!-- JSTL 로 이전  Pager 링크 만들기------------------------------------------------------------------------------------------------------------- -->		
+		<c:if test="${startNum>1}">
+		<a href="?p=${startNum-1}&t=&q=" class="btn btn-next" ">이전</a>
+		</c:if>
+		<c:if test="${startNum<=1}">
 		<span class="btn btn-prev" onclick="alert('이전 페이지가 없습니다.');">이전</span>
-		
+		</c:if>
+<!-- JSTL 로 이전   Pager 링크 만들기------------------------------------------------------------------------------------------------------------ -->		
 	</div>
+	<!-- JSTL로 Pager 번호 만들기------------------------------------------------------------------------------------------------------------- -->
 	<ul class="-list- center">
-		<li><a class="-text- orange bold" href="?p=1&t=&q=" >1</a></li>
-				
+	<c:forEach var="i" begin="0" end="4" >
+		<li><a class="-text- orange bold" href="?p=${startNum+i }&t=&q=" >${i+startNum }</a></li>
+	</c:forEach>
 	</ul>
 	<div>
-		
-		
+	<!-- JSTL로 Pager 번호 만들기------------------------------------------------------------------------------------------------------------- -->	
+<!-- JSTL 로 다음  Pager 링크 만들기------------------------------------------------------------------------------------------------------------- -->	
+			<c:if test="${startNum+5<lastNum}"><!-- 조건에 맞으면 출력 아니면 출력 안함 -->	<!-- 레코드의 개수가 몇개이냐를  -->
+				<a href="?p=${startNum+5}&t=&q=" class="btn btn-next" ">다음</a>
+			</c:if>
+			<c:if test="${startNum+5>=lastNum}">
 			<span class="btn btn-next" onclick="alert('다음 페이지가 없습니다.');">다음</span>
-		
+			</c:if>
+<!-- JSTL 로 다음  Pager 링크 만들기------------------------------------------------------------------------------------------------------------- -->		
 	</div>
 	
 			</div>

@@ -4,6 +4,7 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="UTF-8"%>
 <%
@@ -202,7 +203,16 @@
 								</tr>
 								<tr>
 									<th>첨부파일</th>
-									<td colspan="3">${notice.files}</td>
+									<td colspan="3" style="text-align:left; text-indent:1vh">
+									<!-- forTokens 로 첨부 파일 목록 출력하기 -->
+									<c:forTokens var="fileName" items="${notice.files}" delims="," varStatus="st">
+										<a href="${fileName}">${fileName}</a> 
+										<!-- 마지막 인자값에는 구분자를 넣지 않는다 -->
+										<c:if test="${! st.last }">
+											/
+										</c:if>
+									</c:forTokens>
+									</td>
 								</tr>
 								<tr class="content">
 									<td colspan="4">${notice.content}</td>
@@ -213,7 +223,7 @@
 					</div>
 					
 					<div class="margin-top text-align-center">
-						<a class="btn btn-list" href="list.jsp">목록</a>
+						<a class="btn btn-list" href="list">목록</a>
 					</div>
 					
 					<div class="margin-top">
