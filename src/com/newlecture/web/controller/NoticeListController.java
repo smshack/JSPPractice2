@@ -1,13 +1,7 @@
 package com.newlecture.web.controller;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,55 +11,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.newlecture.web.controller.entity.Notice;
+import com.newlecture.web.service.NoticeService;
 @WebServlet("/notice/list")
 public class NoticeListController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		List<Notice> list = new ArrayList<Notice>();
-		
-		String url ="jdbc:oracle:thin:@localhost:1521/orcl";
-		String sql = "select * from notice";
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con =DriverManager.getConnection(url,"practice","1111");
-			Statement st =con.createStatement();
-			ResultSet rs =st.executeQuery(sql);
-				
-			while(rs.next()){
-				int id =rs.getInt("id");
-				String title = rs.getString("title");
-				Date regdate =rs.getDate("regdate");
-				String writerid =rs.getString("writer_id");
-				int hit =rs.getInt("hit");
-				String files =rs.getString("files");
-				String content =rs.getString("content");
-				
-				Notice notice = new Notice(id,
-						title,
-						writerid,
-						regdate,
-						hit,
-						files,
-						content);
-				
-				list.add(notice);
-			}
-			
-			request.setAttribute("list", list);
 
-			   rs.close();
-			   st.close();
-			   con.close();       
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
+		//list?f=title&q=a
+		
+		//사용자가 요청할지 안할지 모르니 기본값을 주고 사용한다
+		String field_ =request.getParameter("f");
+		String query_ =request.getParameter("q");
+		String page_ = request.getParameter("p");
+		String field ="title";
+		
+		if(field_ != null && !field_.equals("")) field = field_;
+		
+		String query = "";
+		if(query_ != null && !query_.equals("")) query = query_;
+		
+		int page=1;
+		if(page_ !=null) page=Integer.parseInt(page_);
+		
+		
+		NoticeService service = new NoticeService();
+		List<Notice> list =service.getNoticeList(field,query,page);
+				new ArrayList<Notice>();
+		int count =service.getNoticeCount(field,query);
+		System.out.println(count);
+		request.setAttribute("list", list);
+		request.setAttribute("count",count);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp")	//지정한 페이지를 요청하면서 request, response 객체를 공유

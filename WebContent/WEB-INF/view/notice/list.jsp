@@ -1,16 +1,17 @@
 
 <%@page import="com.newlecture.web.controller.entity.Notice"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>코딩 전문가를 만들기 위한 온라인 강의 시스템</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>공지사항목록</title>
     
     <link href="/css/customer/layout.css" type="text/css" rel="stylesheet" />
@@ -154,11 +155,11 @@
 						<legend class="hidden">공지사항 검색 필드</legend>
 						<label class="hidden">검색분류</label>
 						<select name="f">
-							<option  value="title">제목</option>
-							<option  value="writerId">작성자</option>
+							<option ${(param.f =="title")? "selected":"" } value="title">제목</option>
+							<option ${(param.f =="writer_id")? "selected":"" } value="writer_id">작성자</option>
 						</select> 
 						<label class="hidden">검색어</label>
-						<input type="text" name="q" value=""/>
+						<input type="text" name="q" value="${param.q }"/>
 						<input class="btn btn-search" type="submit" value="검색" />
 					</fieldset>
 				</form>
@@ -184,7 +185,7 @@
 							
 							pageContext.setAttribute("n",n);
 							%> --%>
-					<c:forEach var="n" items="${list}" begin="0" end="5" >
+					<c:forEach var="n" items="${list}" begin="0" end="10" >
 							<tr>
 						<td>${n.id} </td>
 						<td class="title indent text-align-left"><a href="detail?id=${n.id }">${n.title }</a></td>
@@ -199,22 +200,22 @@
 					</c:forEach>
 					
 							<%-- <%} %> --%>
-					
+					<c:set var ="page" value="${(empty param.p) ?1:param.p }"  />
+	<c:set var="startNum" value="${page-(page-1)%5 }" />
+	<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.') }" />
 					</tbody>
 				</table>
 			</div>
 			
 			<div class="indexer margin-top align-right">
 				<h3 class="hidden">현재 페이지</h3>
-				<div><span class="text-orange text-strong">1</span> / 1 pages</div>
+				<div><span class="text-orange text-strong">${(empty param.p)? 1: param.p }</span> / 1 pages</div>
 			</div>
 
 			<div class="margin-top align-center pager">	
 		
 	<div>
-	<c:set var ="page" value="${(param.p ==null) ?1:param.p }"  />
-	<c:set var="startNum" value="${page-(page-1)%5 }" />
-	<c:set var="lastNum" value="23" />
+
 <!-- JSTL 로 이전  Pager 링크 만들기------------------------------------------------------------------------------------------------------------- -->		
 		<c:if test="${startNum>1}">
 		<a href="?p=${startNum-1}&t=&q=" class="btn btn-next" ">이전</a>
@@ -227,16 +228,19 @@
 	<!-- JSTL로 Pager 번호 만들기------------------------------------------------------------------------------------------------------------- -->
 	<ul class="-list- center">
 	<c:forEach var="i" begin="0" end="4" >
-		<li><a class="-text- orange bold" href="?p=${startNum+i }&t=&q=" >${i+startNum }</a></li>
+	<c:if test="${(startNum+i) <lastNum }">
+	<li><a class="-text- ${(page ==(startNum+i))? 'orange':''}  bold" href="?p=${startNum+i }&f=${param.f }&q=${param.q}" >${i+startNum }</a></li>
+	</c:if>
+		
 	</c:forEach>
 	</ul>
 	<div>
 	<!-- JSTL로 Pager 번호 만들기------------------------------------------------------------------------------------------------------------- -->	
 <!-- JSTL 로 다음  Pager 링크 만들기------------------------------------------------------------------------------------------------------------- -->	
-			<c:if test="${startNum+5<lastNum}"><!-- 조건에 맞으면 출력 아니면 출력 안함 -->	<!-- 레코드의 개수가 몇개이냐를  -->
+			<c:if test="${startNum+5<=lastNum}"><!-- 조건에 맞으면 출력 아니면 출력 안함 -->	<!-- 레코드의 개수가 몇개이냐를  -->
 				<a href="?p=${startNum+5}&t=&q=" class="btn btn-next" ">다음</a>
 			</c:if>
-			<c:if test="${startNum+5>=lastNum}">
+			<c:if test="${startNum+5>lastNum}">
 			<span class="btn btn-next" onclick="alert('다음 페이지가 없습니다.');">다음</span>
 			</c:if>
 <!-- JSTL 로 다음  Pager 링크 만들기------------------------------------------------------------------------------------------------------------- -->		
