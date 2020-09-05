@@ -147,8 +147,8 @@
                         <li>공지사항</li>
                     </ul>
                 </div>
-				<!-- enctype="multipart/form-data" -->
-                <form method="post" action="/admin/board/notice/reg" >
+				<!-- 파일을 전송하기 위한 form 속성  -->
+                <form method="post" action="/admin/board/notice/reg" enctype="multipart/form-data" >
                     <div class="margin-top first">
                         <h3 class="hidden">공지사항 입력</h3>
                         <table class="table">
@@ -163,6 +163,13 @@
                                     <th>첨부파일</th>
                                     <td colspan="3" class="text-align-left text-indent"><input type="file"
                                             name="file" /> </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th>첨부파일</th>
+                                    <td colspan="3" class="text-align-left text-indent"><input type="file"
+                                            name="file" /> </td>
+                                    
                                 </tr>
                                 <tr class="content">
                                     <td colspan="4"><textarea class="content" name="content"></textarea></td>

@@ -185,7 +185,7 @@
 											<c:set var="style" value="font-weight:bold; color:red;"/>
 										</c:if>
 										
-										<a href="${fileName}" style="${style}">${fn:toUpperCase(fileName)}</a> 
+										<a download href="/upload/${fileName}" style="${style}">${fn:toUpperCase(fileName)}</a> 
 										<!-- 마지막 인자값에는 구분자를 넣지 않는다 -->
 										<c:if test="${! st.last }">
 											/
